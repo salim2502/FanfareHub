@@ -1,6 +1,6 @@
 package dao;
 
-import model.Fanfaron;
+import metier.Fanfaron;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -8,31 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FanfaronJDBCDAO {
-    private final DbConnectionManager dbManager;
+    private final DbConnectionManager dbManager = DbConnectionManager.getInstance();
 
-    public FanfaronJDBCDAO(DbConnectionManager dbManager) {
-        this.dbManager = dbManager;
-    }
-    String url = "jdbc:postgresql://localhost:5432/webdb";
-    String user = "postgres";
-    String password = "salim2502";
-    static {
-        try {
-            // Force le chargement du driver
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Driver PostgreSQL non trouvé", e);
-        }
-    }
-
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
-    }
-
-    public boolean create(Fanfaron Fanfaron) {
+    public boolean insert(Fanfaron Fanfaron) {
         Date dateCreation = Date.valueOf(Fanfaron.getDateCreation());
         String query = "INSERT INTO Fanfaron (nomfanfaron, email,motdepasse,nom, prenom,genre,contraintealimentaire,createdat,lastconnection,isadmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)";
-        try (Connection conn = getConnection();
+        try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, Fanfaron.getNomFanfaron());
             ps.setString(2, Fanfaron.getEmail());
@@ -53,7 +34,7 @@ public class FanfaronJDBCDAO {
     }
     public Fanfaron findByName(String nomFanfaron){
         String sql = "SELECT * FROM Fanfarons WHERE nomfanfaron = ?";
-        try(Connection conn = getConnection();
+        try(Connection conn = dbManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nomFanfaron);
 
@@ -76,9 +57,35 @@ public class FanfaronJDBCDAO {
         return null;
     }
 
+    public Fanfaron findByNameMdp(String nomFanfaron, String mdp){
+        String sql = "SELECT * FROM Fanfarons WHERE nomfanfaron = ? and motdepasse = ?";
+        try(Connection conn = dbManager.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, nomFanfaron);
+            stmt.setString(2,mdp);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Fanfaron(
+                        rs.getString("nomfanfaron"),
+                        rs.getString("nom"),
+                        rs.getString("email"),
+                        rs.getString("motdepasse"),
+                        rs.getString("prenom"),
+                        rs.getString("genre"),
+                        rs.getString("contraintealimentaire")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean delete(String nomFanfaron) {
         String query = "DELETE FROM Fanfaron WHERE nomfanfaron = ?";
-        try (Connection conn = getConnection();
+        try (Connection conn = dbManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nomFanfaron);
             int rowsDeleted = stmt.executeUpdate();
@@ -102,7 +109,7 @@ public class FanfaronJDBCDAO {
                 + "lastconnection = ? "
                 + "WHERE nomfanfaron = ?"; // ou id_fanfaron si vous avez un ID
 
-        try (Connection conn = getConnection();
+        try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, fanfaron.getNomFanfaron());
@@ -126,7 +133,7 @@ public class FanfaronJDBCDAO {
         String query = "SELECT * FROM Fanfaron";
         List<Fanfaron> Fanfarons = new ArrayList<>();
 
-        try (Connection conn = getConnection();
+        try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
