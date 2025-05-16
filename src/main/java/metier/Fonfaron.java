@@ -2,7 +2,7 @@ package metier;
 
 import java.time.LocalDate;
 
-public class Fanfaron {
+public class Fonfaron {
     private String surnom;
     private String email;
     private String motdepasse;
@@ -14,7 +14,7 @@ public class Fanfaron {
     private Boolean isAdmin;
 
 
-    public Fanfaron(String nomFanfaron, String email, String motDePasse, String nom, String prenom, String genre, String contrainte) {
+    public Fonfaron(String nomFanfaron, String email, String motDePasse, String nom, String prenom, String genre, String contrainte) {
         this.surnom = nomFanfaron;
         this.nom = nom;
         this.email = email;

@@ -1,12 +1,12 @@
 package controleur;
 
-import dao.FanfaronJDBCDAO;
+import dao.FonfaronJDBCDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import metier.Fanfaron;
+import metier.Fonfaron;
 
 import java.io.IOException;
 
@@ -19,12 +19,12 @@ public class GestionCompteServlet extends HttpServlet {
         String vue = "erreur.jsp";
 
         try {
-            FanfaronJDBCDAO fanfaronJDBCDAO = new FanfaronJDBCDAO();
+            FonfaronJDBCDAO fanfaronJDBCDAO = new FonfaronJDBCDAO();
 
             switch (action) {
                 case "inscrire":
-                    Fanfaron f = new Fanfaron(
-                            req.getParameter("nomFanaron"),
+                    Fonfaron f = new Fonfaron(
+                            req.getParameter("nomFonfaron"),
                             req.getParameter("email"),
                             req.getParameter("motdepasse"),
                             req.getParameter("nom"),
@@ -33,23 +33,26 @@ public class GestionCompteServlet extends HttpServlet {
                             req.getParameter("contrainte")
                     );
                     fanfaronJDBCDAO.insert(f);
-                    vue = "loginPage.jsp";
+                    vue = "Vue/loginPage.jsp";
+                    res.sendRedirect(vue);
                     break;
 
                 case "connecter":
-                    String identifiant = req.getParameter("nomFanaron");
+                    String identifiant = req.getParameter("nomFonfaron");
                     String mdp = req.getParameter("motdepasse");
+                    System.out.println(identifiant);
+                    System.out.println(mdp);
+                    Fonfaron utilisateur = fanfaronJDBCDAO.findByNameMdp(identifiant, mdp);
 
-                    Fanfaron utilisateur = fanfaronJDBCDAO.findByNameMdp(identifiant, mdp);
                     if (utilisateur != null) {
                         req.getSession().setAttribute("user", utilisateur);
                         if(utilisateur.isAdmin()){
                             vue = "accueilAdmin.jsp";
                         }
-                        vue = "accueil.jsp";
+                        vue = "Vue/accueil.jsp";
                     } else {
                         req.setAttribute("erreur", "Identifiants incorrects");
-                        vue = "connexion.jsp";
+                        vue = "Vue/loginPage.jsp";
                     }
                     break;
 

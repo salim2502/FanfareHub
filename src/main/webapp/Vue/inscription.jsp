@@ -1,12 +1,13 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <title>Inscription</title>
 </head>
 <body>
-<h2>Inscription Fanfaron</h2>
-<form action="InscriptionServlet" method="post">
-  NomFanaron : <input type="text" name="nomFanaron" required><br>
+<h2>Inscription Fonfaron</h2>
+<form action="../GestionComptesServlet?action=inscrire" method="post">
+  NomFonfaron : <input type="text" name="nomFonfaron" required><br>
   Nom : <input type="text" name="nom"><br>
   Prénom : <input type="text" name="prenom"><br>
   Email : <input type="email" name="email" required><br>
@@ -20,6 +21,6 @@
   Contraintes alimentaires : <input type="text" name="contrainte"><br>
   <input type="submit" value="S'inscrire">
 </form>
-<a href="loginPage.html"> Connexion</a>
+<a href="loginPage.jsp"> Connexion</a>
 </body>
 </html>

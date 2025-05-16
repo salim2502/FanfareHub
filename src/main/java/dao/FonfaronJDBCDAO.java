@@ -1,18 +1,18 @@
 package dao;
 
-import metier.Fanfaron;
+import metier.Fonfaron;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FanfaronJDBCDAO {
+public class FonfaronJDBCDAO {
     private final DbConnectionManager dbManager = DbConnectionManager.getInstance();
 
-    public boolean insert(Fanfaron Fanfaron) {
+    public boolean insert(Fonfaron Fanfaron) {
         Date dateCreation = Date.valueOf(Fanfaron.getDateCreation());
-        String query = "INSERT INTO Fanfaron (nomfanfaron, email,motdepasse,nom, prenom,genre,contraintealimentaire,createdat,lastconnection,isadmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)";
+        String query = "INSERT INTO fonfarons (nomfonfaron, email,motdepasse,nom, prenom,genre,contraintealimentaire,createdat,lastconnection,isadmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)";
         try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, Fanfaron.getNomFanfaron());
@@ -32,8 +32,8 @@ public class FanfaronJDBCDAO {
             return false;
         }
     }
-    public Fanfaron findByName(String nomFanfaron){
-        String sql = "SELECT * FROM Fanfarons WHERE nomfanfaron = ?";
+    public Fonfaron findByName(String nomFanfaron){
+        String sql = "SELECT * FROM fonfarons WHERE nomfonfaron = ?";
         try(Connection conn = dbManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nomFanfaron);
@@ -41,8 +41,8 @@ public class FanfaronJDBCDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Fanfaron(
-                        rs.getString("nomfanfaron"),
+                return new Fonfaron(
+                        rs.getString("nomfonfaron"),
                         rs.getString("nom"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
@@ -57,18 +57,17 @@ public class FanfaronJDBCDAO {
         return null;
     }
 
-    public Fanfaron findByNameMdp(String nomFanfaron, String mdp){
-        String sql = "SELECT * FROM Fanfarons WHERE nomfanfaron = ? and motdepasse = ?";
+    public Fonfaron findByNameMdp(String nomFanfaron, String mdp){
+        String sql = "SELECT * FROM fonfarons WHERE nomfonfaron = ? and motdepasse = ?";
         try(Connection conn = dbManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nomFanfaron);
             stmt.setString(2,mdp);
 
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
-                return new Fanfaron(
-                        rs.getString("nomfanfaron"),
+                return new Fonfaron(
+                        rs.getString("nomfonfaron"),
                         rs.getString("nom"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
@@ -97,7 +96,7 @@ public class FanfaronJDBCDAO {
         }
     }
 
-    public boolean update(Fanfaron fanfaron) {
+    public boolean update(Fonfaron fanfaron) {
         String sql = "UPDATE Fanfarons SET "
                 + "nomfanfaron = ?, "
                 + "email = ?, "
@@ -129,15 +128,15 @@ public class FanfaronJDBCDAO {
             throw new RuntimeException("Erreur lors de la mise à jour du Fanfaron", e);
         }
     }
-    public List<Fanfaron> findAll() {
+    public List<Fonfaron> findAll() {
         String query = "SELECT * FROM Fanfaron";
-        List<Fanfaron> Fanfarons = new ArrayList<>();
+        List<Fonfaron> Fanfarons = new ArrayList<>();
 
         try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Fanfarons.add(new Fanfaron(
+                Fanfarons.add(new Fonfaron(
                         rs.getString("nomfanfaron"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
