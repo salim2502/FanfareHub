@@ -14,7 +14,7 @@ public class Fonfaron {
     private Boolean isAdmin;
 
 
-    public Fonfaron(String nomFanfaron, String email, String motDePasse, String nom, String prenom, String genre, String contrainte) {
+    public Fonfaron(String nomFanfaron, String email, String motDePasse, String nom, String prenom, String genre, String contrainte, boolean admin) {
         this.surnom = nomFanfaron;
         this.nom = nom;
         this.email = email;
@@ -23,7 +23,7 @@ public class Fonfaron {
         this.genre = genre;
         this.contrainte = contrainte;
         this.dateCreation = LocalDate.now();
-        this.isAdmin = false;
+        this.isAdmin = admin;
     }
 
     // Getters et Setters
@@ -60,5 +60,7 @@ public class Fonfaron {
 
     public String getMotDePasse() { return motdepasse; }
     public void setMotDePasse(String motDePasse) { this.motdepasse = motDePasse; }
+
+    public void setAdmin(){this.isAdmin = true;}
 
 }

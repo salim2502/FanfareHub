@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import metier.Fonfaron;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/GestionComptesServlet")
 public class GestionCompteServlet extends HttpServlet {
@@ -30,7 +31,8 @@ public class GestionCompteServlet extends HttpServlet {
                             req.getParameter("nom"),
                             req.getParameter("prenom"),
                             req.getParameter("genre"),
-                            req.getParameter("contrainte")
+                            req.getParameter("contrainte"),
+                            false
                     );
                     fanfaronJDBCDAO.insert(f);
                     vue = "Vue/loginPage.jsp";
@@ -40,19 +42,21 @@ public class GestionCompteServlet extends HttpServlet {
                 case "connecter":
                     String identifiant = req.getParameter("nomFonfaron");
                     String mdp = req.getParameter("motdepasse");
-                    System.out.println(identifiant);
-                    System.out.println(mdp);
                     Fonfaron utilisateur = fanfaronJDBCDAO.findByNameMdp(identifiant, mdp);
 
                     if (utilisateur != null) {
                         req.getSession().setAttribute("user", utilisateur);
-                        if(utilisateur.isAdmin()){
-                            vue = "accueilAdmin.jsp";
-                        }
                         vue = "Vue/accueil.jsp";
+                        if(utilisateur.isAdmin()){
+                            req.getSession().setAttribute("admin", true);
+                            List<Fonfaron> fonfarons = fanfaronJDBCDAO.findAll();
+                            req.setAttribute("fonfarons", fonfarons);
+                            vue = "Vue/accueilAdmin.jsp";
+                        }
                     } else {
-                        req.setAttribute("erreur", "Identifiants incorrects");
-                        vue = "Vue/loginPage.jsp";
+                        req.getSession().setAttribute("erreur", "Identifiants incorrects");
+                        res.sendRedirect("Vue/loginPage.jsp");
+                        return;
                     }
                     break;
 

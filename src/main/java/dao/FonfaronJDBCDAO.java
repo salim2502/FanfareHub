@@ -48,7 +48,8 @@ public class FonfaronJDBCDAO {
                         rs.getString("motdepasse"),
                         rs.getString("prenom"),
                         rs.getString("genre"),
-                        rs.getString("contraintealimentaire")
+                        rs.getString("contraintealimentaire"),
+                        rs.getBoolean("isadmin")
                 );
             }
         } catch (SQLException e) {
@@ -73,7 +74,8 @@ public class FonfaronJDBCDAO {
                         rs.getString("motdepasse"),
                         rs.getString("prenom"),
                         rs.getString("genre"),
-                        rs.getString("contraintealimentaire")
+                        rs.getString("contraintealimentaire"),
+                        rs.getBoolean("isadmin")
                 );
             }
         } catch (SQLException e) {
@@ -83,7 +85,7 @@ public class FonfaronJDBCDAO {
     }
 
     public boolean delete(String nomFanfaron) {
-        String query = "DELETE FROM Fanfaron WHERE nomfanfaron = ?";
+        String query = "DELETE FROM Fonfarons WHERE nomfonfaron = ?";
         try (Connection conn = dbManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nomFanfaron);
@@ -106,20 +108,20 @@ public class FonfaronJDBCDAO {
                 + "genre = ?, "
                 + "contraintealimentaire = ?, "
                 + "lastconnection = ? "
-                + "WHERE nomfanfaron = ?"; // ou id_fanfaron si vous avez un ID
+                + "WHERE nomfanfaron = ?";
 
         try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, fanfaron.getNomFanfaron());
             ps.setString(2, fanfaron.getEmail());
-            ps.setString(3, fanfaron.getMotDePasse()); // Devrait être déjà hashé
+            ps.setString(3, fanfaron.getMotDePasse());
             ps.setString(4, fanfaron.getNom());
             ps.setString(5, fanfaron.getPrenom());
             ps.setString(6, fanfaron.getGenre());
             ps.setString(7, fanfaron.getContrainte());
-            ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now())); // Mise à jour lastconnection
-            ps.setString(9, fanfaron.getNomFanfaron()); // Pour le WHERE
+            ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(9, fanfaron.getNomFanfaron());
 
             int rowsUpdated = ps.executeUpdate();
             return rowsUpdated > 0;
@@ -129,7 +131,7 @@ public class FonfaronJDBCDAO {
         }
     }
     public List<Fonfaron> findAll() {
-        String query = "SELECT * FROM Fanfaron";
+        String query = "SELECT * FROM Fonfarons";
         List<Fonfaron> Fanfarons = new ArrayList<>();
 
         try (Connection conn = dbManager.getConnection();
@@ -137,13 +139,14 @@ public class FonfaronJDBCDAO {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Fanfarons.add(new Fonfaron(
-                        rs.getString("nomfanfaron"),
+                        rs.getString("nomfonfaron"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("genre"),
-                        rs.getString("contraintealimentaire")
+                        rs.getString("contraintealimentaire"),
+                        rs.getBoolean("isadmin")
                 ));
             }
         } catch (SQLException e) {
@@ -151,5 +154,12 @@ public class FonfaronJDBCDAO {
             e.printStackTrace();
         }
         return Fanfarons;
+    }
+    public void editAdmin(String nomFanfaron) throws SQLException {
+        String sql = "UPDATE fonfarons SET isadmin = NOT isadmin WHERE nomfonfaron = ?";
+        try (PreparedStatement stmt = dbManager.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, nomFanfaron);
+            stmt.executeUpdate();
+        }
     }
 }

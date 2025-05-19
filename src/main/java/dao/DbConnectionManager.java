@@ -8,8 +8,8 @@ public class DbConnectionManager{
     private static final String URL = "jdbc:postgresql://localhost:5432/FonfareHub";
     private static final String USER = "groupe7";
     private static final String PASSWORD = "projet";
-    private static DbConnectionManager instance;// Singleton de DbConnectionManager
-    private DbConnectionManager(){// Constructeur privé pour empêcher l'instanciation directe
+    private static DbConnectionManager instance;
+    private DbConnectionManager(){
         try{// Charger le driver PostgreSQL
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e){ throw new RuntimeException("Pb de driver", e); }
@@ -17,7 +17,7 @@ public class DbConnectionManager{
     public Connection getConnection() throws SQLException {// Obtenir une connexion à la bdd
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
-    public static DbConnectionManager getInstance(){// Obtenir l'instance unique de DbConnectionManager
+    public static DbConnectionManager getInstance(){
         if (instance == null) {
             synchronized (DbConnectionManager.class){
                 if (instance == null) {

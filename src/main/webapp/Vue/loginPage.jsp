@@ -7,6 +7,15 @@
 </head>
 <body>
 <h1>Connexion</h1>
+<%
+    String erreur = (String) session.getAttribute("erreur");
+    if (erreur != null) {
+%>
+<p style="color:red;"><%= erreur %></p>
+<%
+        session.removeAttribute("erreur");
+    }
+%>
 <form action="../GestionComptesServlet?action=connecter" method="post">
     <label for="login">Nom Fonfaron :</label>
     <input type="text" id="login" name="nomFonfaron" required><br><br>
