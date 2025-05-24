@@ -35,9 +35,8 @@ public class GestionCompteServlet extends HttpServlet {
                             false
                     );
                     fanfaronJDBCDAO.insert(f);
-                    vue = "Vue/loginPage.jsp";
-                    res.sendRedirect(vue);
-                    break;
+                    res.sendRedirect("Vue/loginPage.jsp");
+                    return;
 
                 case "connecter":
                     String identifiant = req.getParameter("nomFanfaron");
