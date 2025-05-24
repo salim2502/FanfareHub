@@ -1,18 +1,18 @@
 package dao;
 
-import metier.Fonfaron;
+import metier.Fanfaron;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FonfaronJDBCDAO {
+public class FanfaronJDBCDAO {
     private final DbConnectionManager dbManager = DbConnectionManager.getInstance();
 
-    public boolean insert(Fonfaron Fanfaron) {
+    public boolean insert(Fanfaron Fanfaron) {
         Date dateCreation = Date.valueOf(Fanfaron.getDateCreation());
-        String query = "INSERT INTO fonfarons (nomfonfaron, email,motdepasse,nom, prenom,genre,contraintealimentaire,createdat,lastconnection,isadmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)";
+        String query = "INSERT INTO fanfarons (nomfanfaron, email,motdepasse,nom, prenom,genre,contraintealimentaire,createdat,lastconnection,isadmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)";
         try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, Fanfaron.getNomFanfaron());
@@ -32,8 +32,8 @@ public class FonfaronJDBCDAO {
             return false;
         }
     }
-    public Fonfaron findByName(String nomFanfaron){
-        String sql = "SELECT * FROM fonfarons WHERE nomfonfaron = ?";
+    public Fanfaron findByName(String nomFanfaron){
+        String sql = "SELECT * FROM fanfarons WHERE nomfanfaron = ?";
         try(Connection conn = dbManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nomFanfaron);
@@ -41,8 +41,8 @@ public class FonfaronJDBCDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Fonfaron(
-                        rs.getString("nomfonfaron"),
+                return new Fanfaron(
+                        rs.getString("nomfanfaron"),
                         rs.getString("nom"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
@@ -58,8 +58,8 @@ public class FonfaronJDBCDAO {
         return null;
     }
 
-    public Fonfaron findByNameMdp(String nomFanfaron, String mdp){
-        String sql = "SELECT * FROM fonfarons WHERE nomfonfaron = ? and motdepasse = ?";
+    public Fanfaron findByNameMdp(String nomFanfaron, String mdp){
+        String sql = "SELECT * FROM fanfarons WHERE nomfanfaron = ? and motdepasse = ?";
         try(Connection conn = dbManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nomFanfaron);
@@ -67,8 +67,8 @@ public class FonfaronJDBCDAO {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Fonfaron(
-                        rs.getString("nomfonfaron"),
+                return new Fanfaron(
+                        rs.getString("nomfanfaron"),
                         rs.getString("nom"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
@@ -85,7 +85,7 @@ public class FonfaronJDBCDAO {
     }
 
     public boolean delete(String nomFanfaron) {
-        String query = "DELETE FROM Fonfarons WHERE nomfonfaron = ?";
+        String query = "DELETE FROM Fanfarons WHERE nomfanfaron = ?";
         try (Connection conn = dbManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nomFanfaron);
@@ -98,7 +98,7 @@ public class FonfaronJDBCDAO {
         }
     }
 
-    public boolean update(Fonfaron fanfaron) {
+    public boolean update(Fanfaron fanfaron) {
         String sql = "UPDATE Fanfarons SET "
                 + "nomfanfaron = ?, "
                 + "email = ?, "
@@ -130,16 +130,16 @@ public class FonfaronJDBCDAO {
             throw new RuntimeException("Erreur lors de la mise à jour du Fanfaron", e);
         }
     }
-    public List<Fonfaron> findAll() {
-        String query = "SELECT * FROM Fonfarons";
-        List<Fonfaron> Fanfarons = new ArrayList<>();
+    public List<Fanfaron> findAll() {
+        String query = "SELECT * FROM Fanfarons";
+        List<Fanfaron> Fanfarons = new ArrayList<>();
 
         try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Fanfarons.add(new Fonfaron(
-                        rs.getString("nomfonfaron"),
+                Fanfarons.add(new Fanfaron(
+                        rs.getString("nomfanfaron"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
                         rs.getString("nom"),
@@ -156,7 +156,7 @@ public class FonfaronJDBCDAO {
         return Fanfarons;
     }
     public void editAdmin(String nomFanfaron) throws SQLException {
-        String sql = "UPDATE fonfarons SET isadmin = NOT isadmin WHERE nomfonfaron = ?";
+        String sql = "UPDATE fanfarons SET isadmin = NOT isadmin WHERE nomfanfaron = ?";
         try (PreparedStatement stmt = dbManager.getConnection().prepareStatement(sql)) {
             stmt.setString(1, nomFanfaron);
             stmt.executeUpdate();

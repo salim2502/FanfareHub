@@ -1,12 +1,12 @@
 package controleur;
 
-import dao.FonfaronJDBCDAO;
+import dao.FanfaronJDBCDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import metier.Fonfaron;
+import metier.Fanfaron;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,12 +20,12 @@ public class GestionCompteServlet extends HttpServlet {
         String vue = "erreur.jsp";
 
         try {
-            FonfaronJDBCDAO fanfaronJDBCDAO = new FonfaronJDBCDAO();
+            FanfaronJDBCDAO fanfaronJDBCDAO = new FanfaronJDBCDAO();
 
             switch (action) {
                 case "inscrire":
-                    Fonfaron f = new Fonfaron(
-                            req.getParameter("nomFonfaron"),
+                    Fanfaron f = new Fanfaron(
+                            req.getParameter("nomFanfaron"),
                             req.getParameter("email"),
                             req.getParameter("motdepasse"),
                             req.getParameter("nom"),
@@ -40,17 +40,17 @@ public class GestionCompteServlet extends HttpServlet {
                     break;
 
                 case "connecter":
-                    String identifiant = req.getParameter("nomFonfaron");
+                    String identifiant = req.getParameter("nomFanfaron");
                     String mdp = req.getParameter("motdepasse");
-                    Fonfaron utilisateur = fanfaronJDBCDAO.findByNameMdp(identifiant, mdp);
+                    Fanfaron utilisateur = fanfaronJDBCDAO.findByNameMdp(identifiant, mdp);
 
                     if (utilisateur != null) {
                         req.getSession().setAttribute("user", utilisateur);
                         vue = "Vue/accueil.jsp";
                         if(utilisateur.isAdmin()){
                             req.getSession().setAttribute("admin", true);
-                            List<Fonfaron> fonfarons = fanfaronJDBCDAO.findAll();
-                            req.setAttribute("fonfarons", fonfarons);
+                            List<Fanfaron> fanfarons = fanfaronJDBCDAO.findAll();
+                            req.setAttribute("fanfarons", fanfarons);
                             vue = "Vue/accueilAdmin.jsp";
                         }
                     } else {
@@ -59,6 +59,10 @@ public class GestionCompteServlet extends HttpServlet {
                         return;
                     }
                     break;
+                case "deconnecter":
+                    req.getSession().invalidate();
+                    res.sendRedirect("Vue/loginPage.jsp");
+                    return;
 
                 default:
                     res.sendError(404, "Action non supportée : " + action);

@@ -5,24 +5,32 @@
   Time: 14:57
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="metier.Fonfaron" %>
+<%@ page import="metier.Fanfaron" %>
 <%@ page contentType="text/html;charset=UTF-8" import="java.util.List" %>
 <%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
+
+    Fanfaron user = (Fanfaron) session.getAttribute("user");
+    if (user == null) {
+        response.sendRedirect("loginPage.jsp");
+        return;
+    }
     Boolean isAdmin = (Boolean) session.getAttribute("admin");
     if (isAdmin == null || !isAdmin) {
         response.sendRedirect("accueil.jsp");
         return;
     }
 
-    List<Fonfaron> fonfarons = (List<Fonfaron>) request.getAttribute("fonfarons");
+    List<Fanfaron> fanfarons = (List<Fanfaron>) request.getAttribute("fanfarons");
 %>
-
-<h2>Liste des comptes fonfarons</h2>
+<h2>Liste des comptes fanfarons</h2>
 <table border="1">
     <tr>
         <th>Nom</th><th>Email</th><th>Admin</th><th>Actions</th>
     </tr>
-    <% for (Fonfaron f : fonfarons) { %>
+    <% for (Fanfaron f : fanfarons) { %>
     <tr>
         <td><%= f.getNomFanfaron() %></td>
         <td><%= f.getEmail() %></td>
@@ -59,4 +67,9 @@
     Contraintes alimentaires : <input type="text" name="contrainte"><br>
     <input type="submit" value="Ajouter">
 </form>
+<form action="GestionComptesServlet" method="post">
+    <input type="hidden" name="action" value="deconnecter" />
+    <input type="submit" value="Déconnexion" />
+</form>
+
 

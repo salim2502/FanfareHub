@@ -5,9 +5,9 @@
   <title>Inscription</title>
 </head>
 <body>
-<h2>Inscription Fonfaron</h2>
+<h2>Inscription Fanfaron</h2>
 <form action="../GestionComptesServlet?action=inscrire" method="post">
-  NomFonfaron : <input type="text" name="nomFonfaron" required><br>
+  NomFanfaron : <input type="text" name="nomFanfaron" required><br>
   Nom : <input type="text" name="nom"><br>
   Prénom : <input type="text" name="prenom"><br>
   Email : <input type="email" name="email" required><br>

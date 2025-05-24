@@ -1,12 +1,12 @@
 package controleur;
 
-import dao.FonfaronJDBCDAO;
+import dao.FanfaronJDBCDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import metier.Fonfaron;
+import metier.Fanfaron;
 
 import java.io.IOException;
 
@@ -23,13 +23,13 @@ public class AdminServlet extends HttpServlet {
         String action = req.getParameter("action");
 
         try {
-            FonfaronJDBCDAO dao = new FonfaronJDBCDAO();
+            FanfaronJDBCDAO dao = new FanfaronJDBCDAO();
 
             switch (action) {
                 case "Ajouter":
                     System.out.println("why isn't working");
-                    Fonfaron f = new Fonfaron(
-                            req.getParameter("nomFonfaron"),
+                    Fanfaron f = new Fanfaron(
+                            req.getParameter("nomFanfaron"),
                             req.getParameter("email"),
                             req.getParameter("motdepasse"),
                             req.getParameter("nom"),
@@ -41,14 +41,14 @@ public class AdminServlet extends HttpServlet {
                     dao.insert(f);
                     break;
                 case "supprimer":
-                    dao.delete(req.getParameter("nomFonfaron"));
+                    dao.delete(req.getParameter("nomFanfaron"));
                     break;
                 case "modifier":
-                    dao.editAdmin(req.getParameter("nomFonfaron"));
+                    dao.editAdmin(req.getParameter("nomFanfaron"));
                     break;
             }
 
-            req.setAttribute("fonfarons", dao.findAll());
+            req.setAttribute("fanfarons", dao.findAll());
             req.getRequestDispatcher("Vue/accueilAdmin.jsp").forward(req, res);
 
         } catch (Exception e) {

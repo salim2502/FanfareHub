@@ -17,8 +17,8 @@
     }
 %>
 <form action="../GestionComptesServlet?action=connecter" method="post">
-    <label for="login">Nom Fonfaron :</label>
-    <input type="text" id="login" name="nomFonfaron" required><br><br>
+    <label for="login">Nom Fanfaron :</label>
+    <input type="text" id="login" name="nomFanfaron" required><br><br>
 
     <label for="password">Mot de passe :</label>
     <input type="password" id="password" name="motdepasse" required><br><br>
