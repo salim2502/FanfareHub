@@ -38,22 +38,22 @@
         <td>
             <form action="AdminServlet" method="post" style="display:inline;">
                 <input type="hidden" name="action" value="supprimer" />
-                <input type="hidden" name="nomFonfaron" value="<%= f.getNomFanfaron() %>" />
+                <input type="hidden" name="nomFanfaron" value="<%= f.getNomFanfaron() %>" />
                 <input type="submit" value="Supprimer" />
             </form>
             <form action="AdminServlet" method="post" style="display:inline;">
                 <input type="hidden" name="action" value="modifier" />
-                <input type="hidden" name="nomFonfaron" value="<%= f.getNomFanfaron() %>" />
+                <input type="hidden" name="nomFanfaron" value="<%= f.getNomFanfaron() %>" />
                 <input type="submit" value="Changer rôle admin" />
             </form>
         </td>
     </tr>
     <% } %>
 </table>
-<h2>Ajouter un fonfaron</h2>
+<h2>Ajouter un fanfaron</h2>
 <form action="AdminServlet" method="post">
     <input type="hidden" name="action" value="Ajouter" />
-    NomFonfaron : <input type="text" name="nomFonfaron" required><br>
+    Nom Fanfaron : <input type="text" name="nomFanfaron" required><br>
     Nom : <input type="text" name="nom"><br>
     Prénom : <input type="text" name="prenom"><br>
     Email : <input type="email" name="email" required><br>
