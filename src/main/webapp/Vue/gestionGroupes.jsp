@@ -56,6 +56,6 @@
     <input type="submit" value="Enregistrer les modifications">
 </form>
 
-<a href="Vue/accueil.jsp">Retour à l'accueil</a>
+<a href="GestionComptesServlet?action=connecter">Retour à l'accueil</a>
 </body>
 </html>
