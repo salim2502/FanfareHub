@@ -50,10 +50,10 @@
     </tr>
     <% } %>
 </table>
-<h2>Ajouter un fonfaron</h2>
+<h2>Ajouter un fanfaron</h2>
 <form action="AdminServlet" method="post">
     <input type="hidden" name="action" value="Ajouter" />
-    NomFonfaron : <input type="text" name="nomFonfaron" required><br>
+    Nom Fanfaron : <input type="text" name="nomFanfaron" required><br>
     Nom : <input type="text" name="nom"><br>
     Prénom : <input type="text" name="prenom"><br>
     Email : <input type="email" name="email" required><br>
