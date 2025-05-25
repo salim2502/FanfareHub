@@ -21,6 +21,6 @@
   Contraintes alimentaires : <input type="text" name="contrainte"><br>
   <input type="submit" value="S'inscrire">
 </form>
-<a href="loginPage.jsp"> Connexion</a>
+<a href="GestionComptesServlet"> Connexion</a>
 </body>
 </html>
