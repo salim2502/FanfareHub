@@ -44,7 +44,12 @@ public class AdminServlet extends HttpServlet {
                     dao.delete(req.getParameter("nomFanfaron"));
                     break;
                 case "modifier":
-                    dao.editAdmin(req.getParameter("nomFanfaron"));
+                    String nomFanfaron = req.getParameter("nomFanfaron");
+                    Fanfaron newFanfaron = dao.findByName(nomFanfaron);
+                    System.out.println("post var = " + nomFanfaron);
+                    System.out.println("fanfaron = " + newFanfaron);
+                    newFanfaron.setAdmin(true);
+                    dao.update(newFanfaron);
                     break;
             }
 

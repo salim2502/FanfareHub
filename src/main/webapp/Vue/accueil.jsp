@@ -23,6 +23,7 @@
 </head>
 <body>
 <h1>Yokuzu</h1>
+<a href="GestionGroupesServlet?action=afficher">Gérer mes groupes et pupitres</a>
 <form action="GestionComptesServlet" method="post">
     <input type="hidden" name="action" value="deconnecter" />
     <input type="submit" value="Déconnexion" />

@@ -64,9 +64,10 @@ public class FanfaronJDBCDAO {
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nomFanfaron);
             stmt.setString(2,mdp);
-
             ResultSet rs = stmt.executeQuery();
+            System.out.println(sql);
             if (rs.next()) {
+                System.out.println(rs.getString("nomfanfaron"));
                 return new Fanfaron(
                         rs.getString("nomfanfaron"),
                         rs.getString("email"),
@@ -123,6 +124,8 @@ public class FanfaronJDBCDAO {
             ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
             ps.setString(9, fanfaron.getNomFanfaron());
 
+            System.out.println(ps.toString());
+
             int rowsUpdated = ps.executeUpdate();
             return rowsUpdated > 0;
 
@@ -154,12 +157,5 @@ public class FanfaronJDBCDAO {
             e.printStackTrace();
         }
         return Fanfarons;
-    }
-    public void editAdmin(String nomFanfaron) throws SQLException {
-        String sql = "UPDATE fanfarons SET isadmin = NOT isadmin WHERE nomfanfaron = ?";
-        try (PreparedStatement stmt = dbManager.getConnection().prepareStatement(sql)) {
-            stmt.setString(1, nomFanfaron);
-            stmt.executeUpdate();
-        }
     }
 }
