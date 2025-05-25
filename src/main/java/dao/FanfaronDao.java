@@ -11,6 +11,4 @@ public interface FanfaronDao {
     boolean update(Fanfaron joueur);
     List<Fanfaron> findAll();
     Fanfaron findByNameMdp(String nomFanfaron, String mdp);
-
-    void editAdmin(String nomFanfaron);
 }

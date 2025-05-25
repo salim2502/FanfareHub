@@ -42,6 +42,7 @@ public class GestionCompteServlet extends HttpServlet {
                 case "connecter":
                     String identifiant = req.getParameter("nomFanfaron");
                     String mdp = req.getParameter("motdepasse");
+                    System.out.println(identifiant+ " " + mdp);
                     Fanfaron utilisateur = fanfaronJDBCDAO.findByNameMdp(identifiant, mdp);
 
                     if (utilisateur != null) {
@@ -74,7 +75,6 @@ public class GestionCompteServlet extends HttpServlet {
             res.sendError(500, "Erreur serveur : " + e.getMessage());
             return;
         }
-
         req.getRequestDispatcher(vue).forward(req, res);
     }
 }

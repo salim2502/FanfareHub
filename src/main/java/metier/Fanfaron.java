@@ -61,6 +61,11 @@ public class Fanfaron {
     public String getMotDePasse() { return motdepasse; }
     public void setMotDePasse(String motDePasse) { this.motdepasse = motDePasse; }
 
-    public void setAdmin(){this.isAdmin = true;}
+    public void setAdmin(Boolean isAdmin){this.isAdmin = isAdmin;}
+
+    @Override
+    public String toString() {
+        return nom + " " + prenom + " " + genre + " " + contrainte + " " + dateCreation + " " + isAdmin;
+    }
 
 }
