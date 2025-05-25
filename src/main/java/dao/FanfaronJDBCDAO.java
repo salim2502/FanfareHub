@@ -43,9 +43,9 @@ public class FanfaronJDBCDAO {
             if (rs.next()) {
                 return new Fanfaron(
                         rs.getString("nomfanfaron"),
-                        rs.getString("nom"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
+                        rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("genre"),
                         rs.getString("contraintealimentaire"),
@@ -69,9 +69,9 @@ public class FanfaronJDBCDAO {
             if (rs.next()) {
                 return new Fanfaron(
                         rs.getString("nomfanfaron"),
-                        rs.getString("nom"),
                         rs.getString("email"),
                         rs.getString("motdepasse"),
+                        rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("genre"),
                         rs.getString("contraintealimentaire"),
