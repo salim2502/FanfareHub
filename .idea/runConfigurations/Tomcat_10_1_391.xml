@@ -7,6 +7,11 @@
           <option name="CONTEXT_PATH" value="/FanfareHub_Web_exploded" />
         </settings>
       </artifact>
+      <artifact name="FanfareHub:war exploded">
+        <settings>
+          <option name="CONTEXT_PATH" value="/FanfareHub_war_exploded" />
+        </settings>
+      </artifact>
     </deployment>
     <server-settings>
       <option name="BASE_DIRECTORY_NAME" value="87ab3aa3-d90c-4252-8203-4eaa9acc4221" />
@@ -83,6 +88,10 @@
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
         <artifact name="FanfareHub:Web exploded" />
+        <artifact name="FanfareHub:war exploded" />
+      </option>
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="FanfareHub:war exploded" />
       </option>
     </method>
   </configuration>

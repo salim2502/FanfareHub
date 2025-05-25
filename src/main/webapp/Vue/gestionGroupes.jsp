@@ -11,13 +11,15 @@
 
     Fanfaron user = (Fanfaron) session.getAttribute("user");
     if (user == null) {
-        response.sendRedirect("loginPage.jsp");
+        response.sendRedirect("GestionComptesServlet?action=connecter");
         return;
     }
     List<String> pupitres = (List<String>) request.getAttribute("pupitres");
     List<String> userPupitres = (List<String>) request.getAttribute("userPupitres");
     List<String> commissions = (List<String>) request.getAttribute("commissions");
     List<String> userCommissions = (List<String>) request.getAttribute("userCommissions");
+    System.out.println(userPupitres);
+    System.out.println(userCommissions);
 %>
 <body>
 <h1>Gestion de vos groupes et pupitres</h1>
@@ -56,6 +58,6 @@
     <input type="submit" value="Enregistrer les modifications">
 </form>
 
-<a href="GestionComptesServlet?action=connecter">Retour à l'accueil</a>
+<a href="GestionComptesServlet">Retour à l'accueil</a>
 </body>
 </html>

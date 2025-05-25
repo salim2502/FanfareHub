@@ -17,6 +17,9 @@ public class GestionCompteServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String action = req.getParameter("action");
+        if(action == null){
+            action ="";
+        }
         String vue = "erreur.jsp";
 
         try {
@@ -37,7 +40,6 @@ public class GestionCompteServlet extends HttpServlet {
                     fanfaronJDBCDAO.insert(f);
                     res.sendRedirect("Vue/loginPage.jsp");
                     return;
-
                 case "connecter":
                     String identifiant = req.getParameter("nomFanfaron");
                     String mdp = req.getParameter("motdepasse");
@@ -46,26 +48,33 @@ public class GestionCompteServlet extends HttpServlet {
 
                     if (utilisateur != null) {
                         req.getSession().setAttribute("user", utilisateur);
-                        vue = "Vue/accueil.jsp";
                         if(utilisateur.isAdmin()){
                             req.getSession().setAttribute("admin", true);
-                            List<Fanfaron> fanfarons = fanfaronJDBCDAO.findAll();
-                            req.setAttribute("fanfarons", fanfarons);
-                            vue = "Vue/accueilAdmin.jsp";
+                            res.sendRedirect("Vue/accueilAdmin.jsp");
+                        } else {
+                            res.sendRedirect("Vue/accueil.jsp");
                         }
+                        return;
                     } else {
                         req.getSession().setAttribute("erreur", "Identifiants incorrects");
                         res.sendRedirect("Vue/loginPage.jsp");
                         return;
                     }
-                    break;
                 case "deconnecter":
                     req.getSession().invalidate();
                     res.sendRedirect("Vue/loginPage.jsp");
                     return;
-
                 default:
-                    res.sendError(404, "Action non supportée : " + action);
+                    Fanfaron user = (Fanfaron) req.getSession().getAttribute("user");
+                    if(user != null){
+                        if(user.isAdmin())
+                            res.sendRedirect("Vue/accueilAdmin.jsp");
+                        else {
+                            res.sendRedirect("Vue/accueil.jsp");
+                        }
+                    }else {
+                        res.sendRedirect("Vue/loginPage.jsp");
+                    }
                     return;
             }
 
@@ -74,6 +83,5 @@ public class GestionCompteServlet extends HttpServlet {
             res.sendError(500, "Erreur serveur : " + e.getMessage());
             return;
         }
-        req.getRequestDispatcher(vue).forward(req, res);
     }
 }
