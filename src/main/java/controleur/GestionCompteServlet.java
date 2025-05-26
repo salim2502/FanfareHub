@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import metier.Fanfaron;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/GestionComptesServlet")
@@ -48,9 +50,12 @@ public class GestionCompteServlet extends HttpServlet {
 
                     if (utilisateur != null) {
                         req.getSession().setAttribute("user", utilisateur);
+                        utilisateur.setDateConnection(Timestamp.valueOf(LocalDateTime.now()));
+                        fanfaronJDBCDAO.update(utilisateur);
                         if(utilisateur.isAdmin()){
                             req.getSession().setAttribute("admin", true);
-                            res.sendRedirect("Vue/accueilAdmin.jsp");
+                            req.setAttribute("fanfarons", fanfaronJDBCDAO.findAll());
+                            req.getRequestDispatcher("Vue/accueilAdmin.jsp").forward(req, res);
                         } else {
                             res.sendRedirect("Vue/accueil.jsp");
                         }
@@ -67,8 +72,10 @@ public class GestionCompteServlet extends HttpServlet {
                 default:
                     Fanfaron user = (Fanfaron) req.getSession().getAttribute("user");
                     if(user != null){
-                        if(user.isAdmin())
-                            res.sendRedirect("Vue/accueilAdmin.jsp");
+                        if(user.isAdmin()){
+                            System.out.println("isAdmin");
+                            res.sendRedirect("AdminServlet");
+                        }
                         else {
                             res.sendRedirect("Vue/accueil.jsp");
                         }

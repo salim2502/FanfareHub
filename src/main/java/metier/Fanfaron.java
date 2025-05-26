@@ -1,5 +1,6 @@
 package metier;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class Fanfaron {
@@ -11,6 +12,7 @@ public class Fanfaron {
     private String genre;
     private String contrainte;
     private LocalDate dateCreation;
+    private Timestamp dateConnection;
     private Boolean isAdmin;
 
 
@@ -62,6 +64,8 @@ public class Fanfaron {
     public void setMotDePasse(String motDePasse) { this.motdepasse = motDePasse; }
 
     public void setAdmin(Boolean isAdmin){this.isAdmin = isAdmin;}
+    public void setDateConnection(Timestamp dateConnection) { this.dateConnection = dateConnection; }
+    public Timestamp getDateConnection() { return dateConnection; }
 
     @Override
     public String toString() {

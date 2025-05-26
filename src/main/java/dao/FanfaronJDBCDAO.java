@@ -108,7 +108,8 @@ public class FanfaronJDBCDAO {
                 + "prenom = ?, "
                 + "genre = ?, "
                 + "contraintealimentaire = ?, "
-                + "lastconnection = ? "
+                + "lastconnection = ?, "
+                + "isadmin = ? "
                 + "WHERE nomfanfaron = ?";
 
         try (Connection conn = dbManager.getConnection();
@@ -121,8 +122,9 @@ public class FanfaronJDBCDAO {
             ps.setString(5, fanfaron.getPrenom());
             ps.setString(6, fanfaron.getGenre());
             ps.setString(7, fanfaron.getContrainte());
-            ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(9, fanfaron.getNomFanfaron());
+            ps.setTimestamp(8, fanfaron.getDateConnection());
+            ps.setBoolean(9, fanfaron.isAdmin());
+            ps.setString(10, fanfaron.getNomFanfaron());
 
             System.out.println(ps.toString());
 
@@ -134,8 +136,9 @@ public class FanfaronJDBCDAO {
         }
     }
     public List<Fanfaron> findAll() {
-        String query = "SELECT * FROM Fanfarons";
+        String query = "SELECT * FROM Fanfarons ORDER BY nomfanfaron";
         List<Fanfaron> Fanfarons = new ArrayList<>();
+        System.out.println(query);
 
         try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query);
@@ -156,6 +159,7 @@ public class FanfaronJDBCDAO {
             System.err.println("Erreur lors de la récupération des clients : " + e.getMessage());
             e.printStackTrace();
         }
+        System.out.println("Fanfarons : " + Fanfarons);
         return Fanfarons;
     }
 }

@@ -27,7 +27,6 @@ public class AdminServlet extends HttpServlet {
 
             switch (action) {
                 case "Ajouter":
-                    System.out.println("why isn't working");
                     Fanfaron f = new Fanfaron(
                             req.getParameter("nomFanfaron"),
                             req.getParameter("email"),
@@ -48,11 +47,10 @@ public class AdminServlet extends HttpServlet {
                     Fanfaron newFanfaron = dao.findByName(nomFanfaron);
                     System.out.println("post var = " + nomFanfaron);
                     System.out.println("fanfaron = " + newFanfaron);
-                    newFanfaron.setAdmin(true);
+                    newFanfaron.setAdmin(!newFanfaron.isAdmin());
                     dao.update(newFanfaron);
                     break;
             }
-
             req.setAttribute("fanfarons", dao.findAll());
             req.getRequestDispatcher("Vue/accueilAdmin.jsp").forward(req, res);
 
