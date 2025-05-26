@@ -1,6 +1,8 @@
 package controleur;
 
+import dao.CommissionJDBCDAO;
 import dao.FanfaronJDBCDAO;
+import dao.PupitreJDBCDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,6 +39,7 @@ public class GestionCompteServlet extends HttpServlet {
                             req.getParameter("prenom"),
                             req.getParameter("genre"),
                             req.getParameter("contrainte"),
+                            null,
                             false
                     );
                     fanfaronJDBCDAO.insert(f);
@@ -57,7 +60,11 @@ public class GestionCompteServlet extends HttpServlet {
                             req.setAttribute("fanfarons", fanfaronJDBCDAO.findAll());
                             req.getRequestDispatcher("Vue/accueilAdmin.jsp").forward(req, res);
                         } else {
-                            res.sendRedirect("Vue/accueil.jsp");
+                            PupitreJDBCDAO pupitreJDBCDAO = new PupitreJDBCDAO();
+                            CommissionJDBCDAO commissionJDBCDAO = new CommissionJDBCDAO();
+                            req.setAttribute("userPupitres", pupitreJDBCDAO.getPupitresByFanfaron(utilisateur.getNomFanfaron()));
+                            req.setAttribute("userCommissions", commissionJDBCDAO.getCommissionsByFanfaron(utilisateur.getNomFanfaron()));
+                            req.getRequestDispatcher("Vue/accueil.jsp").forward(req, res);
                         }
                         return;
                     } else {
@@ -73,18 +80,21 @@ public class GestionCompteServlet extends HttpServlet {
                     Fanfaron user = (Fanfaron) req.getSession().getAttribute("user");
                     if(user != null){
                         if(user.isAdmin()){
-                            System.out.println("isAdmin");
-                            res.sendRedirect("AdminServlet");
+                            req.setAttribute("fanfarons", fanfaronJDBCDAO.findAll());
+                            req.getRequestDispatcher("Vue/accueilAdmin.jsp").forward(req, res);
                         }
                         else {
-                            res.sendRedirect("Vue/accueil.jsp");
+                            PupitreJDBCDAO pupitreJDBCDAO = new PupitreJDBCDAO();
+                            CommissionJDBCDAO commissionJDBCDAO = new CommissionJDBCDAO();
+                            req.setAttribute("userPupitres", pupitreJDBCDAO.getPupitresByFanfaron(user.getNomFanfaron()));
+                            req.setAttribute("userCommissions", commissionJDBCDAO.getCommissionsByFanfaron(user.getNomFanfaron()));
+                            req.getRequestDispatcher("Vue/accueil.jsp").forward(req, res);
                         }
                     }else {
                         res.sendRedirect("Vue/loginPage.jsp");
                     }
                     return;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             res.sendError(500, "Erreur serveur : " + e.getMessage());

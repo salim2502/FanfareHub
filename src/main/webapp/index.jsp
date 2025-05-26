@@ -1,1 +1,1 @@
-<% response.sendRedirect("Vue/loginPage.jsp");%>
+<% response.sendRedirect("GestionComptesServlet?action=connecter");%>

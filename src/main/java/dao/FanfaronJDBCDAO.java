@@ -49,6 +49,7 @@ public class FanfaronJDBCDAO {
                         rs.getString("prenom"),
                         rs.getString("genre"),
                         rs.getString("contraintealimentaire"),
+                        rs.getTimestamp("lastconnection"),
                         rs.getBoolean("isadmin")
                 );
             }
@@ -76,6 +77,7 @@ public class FanfaronJDBCDAO {
                         rs.getString("prenom"),
                         rs.getString("genre"),
                         rs.getString("contraintealimentaire"),
+                        rs.getTimestamp("lastconnection"),
                         rs.getBoolean("isadmin")
                 );
             }
@@ -152,6 +154,7 @@ public class FanfaronJDBCDAO {
                         rs.getString("prenom"),
                         rs.getString("genre"),
                         rs.getString("contraintealimentaire"),
+                        rs.getTimestamp("lastconnection"),
                         rs.getBoolean("isadmin")
                 ));
             }

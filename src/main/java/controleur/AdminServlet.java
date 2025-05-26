@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import metier.Fanfaron;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @WebServlet("/AdminServlet")
 public class AdminServlet extends HttpServlet {
@@ -35,6 +37,7 @@ public class AdminServlet extends HttpServlet {
                             req.getParameter("prenom"),
                             req.getParameter("genre"),
                             req.getParameter("contrainte"),
+                            null,
                             true
                     );
                     dao.insert(f);

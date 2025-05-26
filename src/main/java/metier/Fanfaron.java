@@ -16,7 +16,7 @@ public class Fanfaron {
     private Boolean isAdmin;
 
 
-    public Fanfaron(String nomFanfaron, String email, String motDePasse, String nom, String prenom, String genre, String contrainte, boolean admin) {
+    public Fanfaron(String nomFanfaron, String email, String motDePasse, String nom, String prenom, String genre, String contrainte,Timestamp dateConnection, boolean admin) {
         this.surnom = nomFanfaron;
         this.nom = nom;
         this.email = email;
@@ -25,6 +25,7 @@ public class Fanfaron {
         this.genre = genre;
         this.contrainte = contrainte;
         this.dateCreation = LocalDate.now();
+        this.dateConnection = dateConnection;
         this.isAdmin = admin;
     }
 

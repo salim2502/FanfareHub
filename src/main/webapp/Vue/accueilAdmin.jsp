@@ -67,6 +67,7 @@
     Contraintes alimentaires : <input type="text" name="contrainte"><br>
     <input type="submit" value="Ajouter">
 </form>
+<a href="./GestionGroupesServlet?action=afficher">Gérer mes groupes et pupitres</a>
 <form action="GestionComptesServlet" method="post">
     <input type="hidden" name="action" value="deconnecter" />
     <input type="submit" value="Déconnexion" />
