@@ -39,8 +39,13 @@
     <li><%= commission %></li>
     <%} %>
 </ul>
-<a href="../GestionGroupesServlet?action=afficher">Gérer mes groupes et pupitres</a>
-<form action="../GestionComptesServlet" method="post">
+<h2>Événements</h2>
+<a href="./GestionEvenementServlet?action=afficher">Voir tous les événements<br></a>
+<% if (userCommissions.contains("Prestation")){ %>
+<a href="./GestionEvenementServlet?action=creer">Créer un nouvel événement<br></a>
+<% } %>
+<a href="./GestionGroupesServlet?action=afficher">Gérer mes groupes et pupitres</a>
+<form action="./GestionComptesServlet" method="post">
     <input type="hidden" name="action" value="deconnecter" />
     <input type="submit" value="Déconnexion" />
 </form>

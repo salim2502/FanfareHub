@@ -22,8 +22,8 @@
         response.sendRedirect("accueil.jsp");
         return;
     }
-
     List<Fanfaron> fanfarons = (List<Fanfaron>) request.getAttribute("fanfarons");
+    List<String> userCommissions = (List<String>) request.getAttribute("userCommissions");
 %>
 <h2>Liste des comptes fanfarons</h2>
 <table border="1">
@@ -67,6 +67,11 @@
     Contraintes alimentaires : <input type="text" name="contrainte"><br>
     <input type="submit" value="Ajouter">
 </form>
+<h2>Événements</h2>
+<a href="./GestionEvenementServlet?action=afficher">Voir tous les événements<br></a>
+<% if (userCommissions.contains("Prestation")){ %>
+<a href="./GestionEvenementServlet?action=creer">Créer un nouvel événement<br></a>
+<% } %>
 <a href="./GestionGroupesServlet?action=afficher">Gérer mes groupes et pupitres</a>
 <form action="GestionComptesServlet" method="post">
     <input type="hidden" name="action" value="deconnecter" />

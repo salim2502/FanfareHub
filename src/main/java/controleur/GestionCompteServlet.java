@@ -24,8 +24,6 @@ public class GestionCompteServlet extends HttpServlet {
         if(action == null){
             action ="";
         }
-        String vue = "erreur.jsp";
-
         try {
             FanfaronJDBCDAO fanfaronJDBCDAO = new FanfaronJDBCDAO();
 
