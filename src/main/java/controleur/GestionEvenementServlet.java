@@ -57,7 +57,7 @@ public class GestionEvenementServlet extends HttpServlet {
                     Evenement eventToDelete = dao.findById(id);
                     userCommissions = new CommissionJDBCDAO().getCommissionsByFanfaron(user.getNomFanfaron());
                     request.setAttribute("userCommissions", userCommissions);
-                    if (!eventToDelete.getNomFanfaron().equals(user.getNomFanfaron()) && !userCommissions.contains("prestation")) {
+                    if (!eventToDelete.getNomFanfaron().equals(user.getNomFanfaron()) && !userCommissions.contains("Prestation")) {
                         response.sendError(403, "Accès refusé : vous ne pouvez pas supprimer cet événement");
                         return;
                     }
@@ -105,9 +105,9 @@ public class GestionEvenementServlet extends HttpServlet {
         try {
             switch (action) {
                 case "creer":
-                    // Vérifier que l'utilisateur fait partie de la commission prestation
+                    // Vérifier que l'utilisateur fait partie de la commission Prestation
                     List<String> commissions = new CommissionJDBCDAO().getCommissionsByFanfaron(user.getNomFanfaron());
-                    if (!commissions.contains("prestation")) {
+                    if (!commissions.contains("Prestation")) {
                         response.sendError(403, "Accès refusé : vous n'avez pas les droits nécessaires");
                         return;
                     }
@@ -132,7 +132,7 @@ public class GestionEvenementServlet extends HttpServlet {
                     int id = Integer.parseInt(request.getParameter("id"));
                     Evenement existingEvent = dao.findById(id);
                     List<String> userCommissions = new CommissionJDBCDAO().getCommissionsByFanfaron(user.getNomFanfaron());
-                    if (!existingEvent.getNomFanfaron().equals(user.getNomFanfaron()) && !userCommissions.contains("prestation")) {
+                    if (!existingEvent.getNomFanfaron().equals(user.getNomFanfaron()) && !userCommissions.contains("Prestation")) {
                         response.sendError(403, "Accès refusé : vous ne pouvez pas modifier cet événement");
                         return;
                     }
