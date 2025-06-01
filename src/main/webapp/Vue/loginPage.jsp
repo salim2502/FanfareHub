@@ -6,7 +6,8 @@
     <title>Connexion</title>
 </head>
 <body>
-<h1>Connexion</h1>
+<h1>Bienvenue sur le Fanfaron Hub</h1>
+<h2>Connexion</h2>
 <%
     String erreur = (String) session.getAttribute("erreur");
     if (erreur != null) {

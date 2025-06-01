@@ -18,8 +18,6 @@
     List<String> userPupitres = (List<String>) request.getAttribute("userPupitres");
     List<String> commissions = (List<String>) request.getAttribute("commissions");
     List<String> userCommissions = (List<String>) request.getAttribute("userCommissions");
-    System.out.println(userPupitres);
-    System.out.println(userCommissions);
 %>
 <body>
 <h1>Gestion de vos groupes et pupitres</h1>

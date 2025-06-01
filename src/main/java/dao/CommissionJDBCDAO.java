@@ -27,7 +27,6 @@ public class CommissionJDBCDAO implements CommissionDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(commissions);
         return commissions;
     }
 
@@ -45,7 +44,7 @@ public class CommissionJDBCDAO implements CommissionDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(commissions);
+
         return commissions;
     }
 

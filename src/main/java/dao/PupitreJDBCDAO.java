@@ -24,7 +24,6 @@ public class PupitreJDBCDAO implements PupitreDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(pupitres);
         return pupitres;
     }
 
@@ -42,7 +41,6 @@ public class PupitreJDBCDAO implements PupitreDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(pupitres);
         return pupitres;
     }
 

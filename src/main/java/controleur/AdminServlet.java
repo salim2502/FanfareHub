@@ -1,5 +1,6 @@
 package controleur;
 
+import dao.CommissionJDBCDAO;
 import dao.FanfaronJDBCDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -48,13 +49,14 @@ public class AdminServlet extends HttpServlet {
                 case "modifier":
                     String nomFanfaron = req.getParameter("nomFanfaron");
                     Fanfaron newFanfaron = dao.findByName(nomFanfaron);
-                    System.out.println("post var = " + nomFanfaron);
-                    System.out.println("fanfaron = " + newFanfaron);
                     newFanfaron.setAdmin(!newFanfaron.isAdmin());
                     dao.update(newFanfaron);
                     break;
             }
             req.setAttribute("fanfarons", dao.findAll());
+            Fanfaron user = (Fanfaron) req.getSession().getAttribute("user");
+            CommissionJDBCDAO commissionJDBCDAO = new CommissionJDBCDAO();
+            req.setAttribute("userCommissions", commissionJDBCDAO.getCommissionsByFanfaron(user.getNomFanfaron()));
             req.getRequestDispatcher("Vue/accueilAdmin.jsp").forward(req, res);
 
         } catch (Exception e) {

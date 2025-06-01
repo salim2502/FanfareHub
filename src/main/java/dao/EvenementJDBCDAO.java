@@ -60,7 +60,6 @@ public class EvenementJDBCDAO implements EvenementDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(evenements);
         return evenements;
     }
 

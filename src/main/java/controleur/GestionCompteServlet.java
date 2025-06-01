@@ -46,7 +46,6 @@ public class GestionCompteServlet extends HttpServlet {
                 case "connecter":
                     String identifiant = req.getParameter("nomFanfaron");
                     String mdp = req.getParameter("motdepasse");
-                    System.out.println(identifiant+ " " + mdp);
                     Fanfaron utilisateur = fanfaronJDBCDAO.findByNameMdp(identifiant, mdp);
 
                     if (utilisateur != null) {
@@ -56,6 +55,8 @@ public class GestionCompteServlet extends HttpServlet {
                         if(utilisateur.isAdmin()){
                             req.getSession().setAttribute("admin", true);
                             req.setAttribute("fanfarons", fanfaronJDBCDAO.findAll());
+                            CommissionJDBCDAO commissionJDBCDAO = new CommissionJDBCDAO();
+                            req.setAttribute("userCommissions", commissionJDBCDAO.getCommissionsByFanfaron(utilisateur.getNomFanfaron()));
                             req.getRequestDispatcher("Vue/accueilAdmin.jsp").forward(req, res);
                         } else {
                             PupitreJDBCDAO pupitreJDBCDAO = new PupitreJDBCDAO();
@@ -79,6 +80,8 @@ public class GestionCompteServlet extends HttpServlet {
                     if(user != null){
                         if(user.isAdmin()){
                             req.setAttribute("fanfarons", fanfaronJDBCDAO.findAll());
+                            CommissionJDBCDAO commissionJDBCDAO = new CommissionJDBCDAO();
+                            req.setAttribute("userCommissions", commissionJDBCDAO.getCommissionsByFanfaron(user.getNomFanfaron()));
                             req.getRequestDispatcher("Vue/accueilAdmin.jsp").forward(req, res);
                         }
                         else {

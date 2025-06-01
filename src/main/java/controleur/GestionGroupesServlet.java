@@ -41,7 +41,6 @@ public class GestionGroupesServlet extends HttpServlet {
                 case "majGroupes":
                     String[] selectedPupitres = request.getParameterValues("pupitres");
                     String[] selectedCommissions = request.getParameterValues("commissions");
-                    // System.out.println(selectedPupitres + " " + selectedCommissions);
 
                     pupitreDAO.getPupitresByFanfaron(user.getNomFanfaron()).forEach(pupitre -> {
                         pupitreDAO.removePupitreFromFanfaron(user.getNomFanfaron(), pupitre);
@@ -51,7 +50,6 @@ public class GestionGroupesServlet extends HttpServlet {
                             pupitreDAO.addPupitreToFanfaron(user.getNomFanfaron(), pupitre);
                         });
                     }
-                    System.out.println(commissionDAO.getCommissionsByFanfaron(user.getNomFanfaron()));
 
                     commissionDAO.getCommissionsByFanfaron(user.getNomFanfaron()).forEach(commission -> {
                         commissionDAO.removeCommissionFromFanfaron(user.getNomFanfaron(), commission);

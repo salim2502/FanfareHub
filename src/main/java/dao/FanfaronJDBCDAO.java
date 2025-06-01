@@ -12,7 +12,7 @@ public class FanfaronJDBCDAO {
 
     public boolean insert(Fanfaron Fanfaron) {
         Date dateCreation = Date.valueOf(Fanfaron.getDateCreation());
-        String query = "INSERT INTO fanfarons (nomfanfaron, email,motdepasse,nom, prenom,genre,contraintealimentaire,createdat,lastconnection,isadmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)";
+        String query = "INSERT INTO fanfarons (nomfanfaron, email,motdepasse,nom, prenom,genre,contraintealimentaire,createdat,lastconnection,isadmin) VALUES (?, ?, encode(digest(?, 'sha256'), 'hex'), ?, ?, ?, ?, ?, NULL, ?)";
         try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, Fanfaron.getNomFanfaron());
@@ -60,15 +60,13 @@ public class FanfaronJDBCDAO {
     }
 
     public Fanfaron findByNameMdp(String nomFanfaron, String mdp){
-        String sql = "SELECT * FROM fanfarons WHERE nomfanfaron = ? and motdepasse = ?";
+        String sql = "SELECT * FROM fanfarons WHERE nomfanfaron = ? and motdepasse = encode(digest(?, 'sha256'), 'hex')";
         try(Connection conn = dbManager.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nomFanfaron);
             stmt.setString(2,mdp);
             ResultSet rs = stmt.executeQuery();
-            System.out.println(sql);
             if (rs.next()) {
-                System.out.println(rs.getString("nomfanfaron"));
                 return new Fanfaron(
                         rs.getString("nomfanfaron"),
                         rs.getString("email"),
@@ -128,7 +126,6 @@ public class FanfaronJDBCDAO {
             ps.setBoolean(9, fanfaron.isAdmin());
             ps.setString(10, fanfaron.getNomFanfaron());
 
-            System.out.println(ps.toString());
 
             int rowsUpdated = ps.executeUpdate();
             return rowsUpdated > 0;
@@ -140,7 +137,6 @@ public class FanfaronJDBCDAO {
     public List<Fanfaron> findAll() {
         String query = "SELECT * FROM Fanfarons ORDER BY nomfanfaron";
         List<Fanfaron> Fanfarons = new ArrayList<>();
-        System.out.println(query);
 
         try (Connection conn = dbManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query);
@@ -162,7 +158,6 @@ public class FanfaronJDBCDAO {
             System.err.println("Erreur lors de la récupération des clients : " + e.getMessage());
             e.printStackTrace();
         }
-        System.out.println("Fanfarons : " + Fanfarons);
         return Fanfarons;
     }
 }
