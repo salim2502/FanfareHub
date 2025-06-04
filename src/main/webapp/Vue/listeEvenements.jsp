@@ -51,7 +51,7 @@
     <td><%= event.getDescription() %></td>
     <td><%= event.getNomFanfaron() %></td>
     <td>
-      <% if (user.getNomFanfaron().equals(event.getNomFanfaron()) || userCommissions.contains("Prestation")) { %>
+      <% if (userCommissions.contains("Prestation")) { %>
       <a href="GestionEvenementServlet?action=modifier&id=<%= event.getId() %>">Modifier</a>
       <a href="GestionEvenementServlet?action=supprimer&id=<%= event.getId() %>"
          onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement?')">Supprimer</a>

@@ -126,12 +126,14 @@ public class GestionEvenementServlet extends HttpServlet {
                     dao.insert(newEvent);
                     request.setAttribute("message", "Événement créé avec succès");
                     request.setAttribute("evenements", dao.findAll());
+                    List<String> userCommissions = new CommissionJDBCDAO().getCommissionsByFanfaron(user.getNomFanfaron());
+                    request.setAttribute("userCommissions", userCommissions);
                     request.getRequestDispatcher("Vue/listeEvenements.jsp").forward(request, response);
                     break;
                 case "modifier":
                     int id = Integer.parseInt(request.getParameter("id"));
                     Evenement existingEvent = dao.findById(id);
-                    List<String> userCommissions = new CommissionJDBCDAO().getCommissionsByFanfaron(user.getNomFanfaron());
+                    userCommissions = new CommissionJDBCDAO().getCommissionsByFanfaron(user.getNomFanfaron());
                     if (!existingEvent.getNomFanfaron().equals(user.getNomFanfaron()) && !userCommissions.contains("Prestation")) {
                         response.sendError(403, "Accès refusé : vous ne pouvez pas modifier cet événement");
                         return;
