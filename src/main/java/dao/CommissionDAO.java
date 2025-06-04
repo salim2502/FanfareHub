@@ -7,4 +7,8 @@ public interface CommissionDAO {
     List<String> getCommissionsByFanfaron(String nomFanfaron);
     boolean addCommissionToFanfaron(String nomFanfaron, String Commission);
     boolean removeCommissionFromFanfaron(String nomFanfaron, String Commission);
+
+    boolean addCommission(String commission);
+
+    boolean removeCommission(String commission);
 }

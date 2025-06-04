@@ -72,7 +72,20 @@
 <% if (userCommissions.contains("Prestation")){ %>
 <a href="./GestionEvenementServlet?action=creer">Créer un nouvel événement<br></a>
 <% } %>
-<a href="./GestionGroupesServlet?action=afficher">Gérer mes groupes et pupitres</a>
+<a href="./GestionGroupesServlet?action=afficher">Gérer mes groupes et pupitres<br></a>
+<form action="./AdminServlet" method="post" style="display: inline;">
+    <input type="hidden" name="action" value="afficherCommissions">
+    <a href="#" onclick="this.closest('form').submit(); return false;" style="text-decoration: underline; color: blue;">
+        Ajouter/Modifier des groupes
+    </a>
+</form>
+<br>
+<form action="./AdminServlet" method="post" style="display: inline;">
+    <input type="hidden" name="action" value="afficherPupitres">
+    <a href="#" onclick="this.closest('form').submit(); return false;" style="text-decoration: underline; color: blue;">
+        Ajouter/Modifier des pupitres
+    </a>
+</form>
 <form action="GestionComptesServlet" method="post">
     <input type="hidden" name="action" value="deconnecter" />
     <input type="submit" value="Déconnexion" />

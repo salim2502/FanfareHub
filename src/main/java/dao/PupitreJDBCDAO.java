@@ -71,4 +71,59 @@ public class PupitreJDBCDAO implements PupitreDAO {
             return false;
         }
     }
+    @Override
+    public boolean addPupitre(String nomPupitre) {
+        String query = "INSERT INTO Pupitre(nom) VALUES(?)";
+        try (Connection conn = dbManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nomPupitre);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean removePupitre(String nomPupitre) {
+        Connection conn = null;
+        try {
+            conn = dbManager.getConnection();
+            conn.setAutoCommit(false);
+
+            String deleteSinscrireQuery = "DELETE FROM sinscrire WHERE nomPupitre = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteSinscrireQuery)) {
+                stmt.setString(1, nomPupitre);
+                stmt.executeUpdate();
+            }
+
+            String deleteAppartenirQuery = "DELETE FROM appartenir WHERE nom = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteAppartenirQuery)) {
+                stmt.setString(1, nomPupitre);
+                stmt.executeUpdate();
+            }
+            String deletePupitreQuery = "DELETE FROM pupitre WHERE nom = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(deletePupitreQuery)) {
+                stmt.setString(1, nomPupitre);
+                int affectedRows = stmt.executeUpdate();
+                conn.commit();
+                return affectedRows > 0;
+            }
+        } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback(); // Annuler en cas d'erreur
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true); // Rétablir le mode auto-commit
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

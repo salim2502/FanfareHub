@@ -109,4 +109,54 @@ public class CommissionJDBCDAO implements CommissionDAO {
             }
         }
     }
+    @Override
+    public boolean addCommission(String commission) {
+        String query = "INSERT INTO GroupeCommission(commission) VALUES(?)";
+        try (Connection conn = dbManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, commission);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removeCommission(String commission) {
+        Connection conn = null;
+        try {
+            conn = dbManager.getConnection();
+            conn.setAutoCommit(false);
+            String deleteImpliquerQuery = "DELETE FROM Impliquer WHERE commission = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteImpliquerQuery)) {
+                stmt.setString(1, commission);
+                stmt.executeUpdate();
+            }
+            String deleteCommissionQuery = "DELETE FROM GroupeCommission WHERE commission = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteCommissionQuery)) {
+                stmt.setString(1, commission);
+                int affectedRows = stmt.executeUpdate();
+
+                conn.commit();
+                return affectedRows > 0;
+            }
+        } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
